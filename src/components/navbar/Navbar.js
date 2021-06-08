@@ -1,11 +1,19 @@
 import React from 'react';
-import './Navbar.css'; 
+import './Navbar.css';
+import { Icon } from 'semantic-ui-react'; 
 
 const Header = () => {
 	return (
 		<div className="navbar-main">
-			<div className="header-logo">
-				GitHub User Search 
+			<div className="navbar-left" style={{ color: 'white' }}>
+				<Icon name="github" size="big"/>
+			</div>
+			<div className="navbar-left2" style={{ color: 'white' }}>
+				<h2>GitHub User Search</h2><br /><br />
+			</div>
+
+			<div className="navbar-right">
+				
 			</div>
 			
 		</div>

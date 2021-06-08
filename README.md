@@ -13,5 +13,9 @@ As a user, I can... :
 
 ### `Resources`
 
-This project was built with [Create React App](https://github.com/facebook/create-react-app). 
+- This project was built with [Create React App](https://github.com/facebook/create-react-app). 
+- Semantic UI and Semantic UI React
+- React Icons
+- React-Router-DOM
+
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Search.css';
-import {Form} from 'semantic-ui-react';
+import { Form } from 'semantic-ui-react';
 
 
 const Search = ({ onFormSubmit }) => {
@@ -15,6 +15,7 @@ const Search = ({ onFormSubmit }) => {
 
 	return (
 		<div>
+			
 			<div className='search'>
 				<Form onSubmit={handleSearch}	>
 					<Form.Group>
@@ -29,7 +30,6 @@ const Search = ({ onFormSubmit }) => {
 					</Form.Group>
 				</Form>
 			</div>
-
 
 		</div>
 	);

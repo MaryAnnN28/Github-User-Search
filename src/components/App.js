@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import {BrowserRouter} from 'react-router-dom';
+import {BrowserRouter, Route } from 'react-router-dom';
 import axios from 'axios';
 import Header from './navbar/Navbar';
 import Search from '../components/search/Search';
 import UserList from '../components/users/UserList';
+import UserDetails from '../components/users/UserDetails'; 
 import Spinner from './Spinner';
 
 
@@ -12,7 +13,7 @@ const App = () => {
 	const [users, setUsers] = useState([]);
 	const [loading, setLoading] = useState(false); 
 
-	const userSearch = (users) => {
+	const userSearch = async (users) => {
 		setLoading(true);
 
 		axios
@@ -46,6 +47,8 @@ const App = () => {
 				<div className='ui container'>
 					<Search onFormSubmit={userSearch} />
 					{userContent()}
+
+					<Route path="/userdetails" component={UserDetails} />
 				</div>
 			</BrowserRouter>
 		</div>
