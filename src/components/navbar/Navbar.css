@@ -12,7 +12,7 @@
 	display: flex; 
 	float: right; 
 	justify-content: center;
-	padding-top: 1.8rem; 
+	margin: auto; 
 }
 
 .navbar-left2 {
@@ -20,7 +20,6 @@
 	display: flex; 
 	float: left; 
 	justify-content: left;
-	/*text-align: left;*/
 	margin: auto; 
 }
 

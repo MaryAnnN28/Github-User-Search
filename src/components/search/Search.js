@@ -29,6 +29,7 @@ const Search = ({ onFormSubmit }) => {
 						/>
 					</Form.Group>
 				</Form>
+
 			</div>
 
 		</div>

@@ -1,68 +1,86 @@
-import React, { useState, useEffect } from 'react'
-import { Segment } from 'semantic-ui-react';
-import axios from 'axios';
-import { Link } from 'react-router-dom'; 
-
-
-
-const UserList = ({ users }) => {
-
-	const [followers, setFollowers] = useState(null); 
-
-	const fetchFollowers = () => {
-		axios.get('https://api')
-	}
+import React, { useState } from 'react'; 
+import UserCard from './UserCard';
+import ReactPaginate from 'react-paginate'; 
 
 
 
 
+const UserList = () => {
 
+	const [users, setUsers] = useState([])
+
+	const [pageNumber, setPageNumber] = useState(1);
+	const usersPerPage = 12;
+	const pagesVisited = pageNumber * usersPerPage;
+
+	const displayUsers = users
+		.slice(pagesVisited, pagesVisited + usersPerPage)
+		.map(user => {
+			return (
+				<div
+					className='user-card ui card'
+					key={user.id}
+					user={user}
+					style={{margin: '1em'}}
+				>
+					<div className='image'>
+						<img src={user.avatar_url} alt={user.login} />
+					</div>
+
+					<div className='content'>
+						<div className='header left floated'>{user.login}</div>
+						<div className='right floated meta'>
+							<i className='users icon' /> &nbsp;
+							{user.followers_url.length} followers
+						</div>
+					</div>
+
+					<div className='extra content' align='center'>
+						<button className='ui button small'>
+							View Details
+						</button>
+
+						<a href={user.html_url} target='_blank' rel='noreferrer'>
+							<button className='ui button small'>Github</button>
+						</a>
+					</div>
+				</div>
+			);
+		});
+
+		const pageCount = Math.ceil(users.length / usersPerPage);
+
+		const pageChange = ({selected}) => {
+			setPageNumber(selected);
+		};
+	
 
 	return (
-		<div className="users-list" style={{ marginTop: '2em' }}>
+		<div className="users-list">
 
 			<div className="search-results-number">
 				<h4>{users.length} Results</h4>
 			</div>
 
-			<Segment>
+			<div className="ui three cards" style={{ padding: '5rem' }}>
+				{/*{users.map(userCard => 
+					<UserCard key={userCard.id} userCard={userCard}/>
+					)}*/}
+				{displayUsers}
+				<ReactPaginate
+					previousLabel={'Prev'}
+					nextLabel={'Next'}
+					pageCount={pageCount}
+					onPageChange={pageChange}
+					containerClassName={'paginationButtons'}
+					previousLinkClassName={'previousButton'}
+					nextLinkClassName={'nextButton'}
+					disabledClassName={'paginationDisabled'}
+					activeClassName={'paginationActive'}
+				/>
 
-			<div className="ui special cards" style={{ marginTop: '2rem' }}>
-				{users.map(user => 
-				<div className="user-card card" key={user.id} user={user}>
-					<div className="blurring dimmable image">
-						<div className="ui dimmer">
-							<div className="content">
-								<div className="center">
-									<div className="ui inverted button">View</div>
-								</div>
-							</div>
-						</div>
-							<img src={user.avatar_url} alt={user.login}/>
-					</div>
-					<div className="content">
-					<a className="header">{user.login}</a>
-
-						<div className="meta">
-							<a>
-								<i className="users icon"></i>
-								{user.followers_url.length}
-							</a>
-						</div>
-					</div>
-					<div className="extra content" align="center">
-							<a href={user.html_url} target="_blank">
-								<button className="ui button">View More</button>
-							</a>
-							<a href={user.html_url} target="_blank">
-								<button className="ui button">View Github</button>
-							</a>
-					</div>
-				</div>
-				
-					)}
 			</div>
-			</Segment>
+
 		</div>
 	)
 }

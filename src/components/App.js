@@ -1,54 +1,48 @@
-import React, {useState, useEffect} from 'react';
-import {BrowserRouter, Route } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import {BrowserRouter, Route} from 'react-router-dom';
 import axios from 'axios';
 import Header from './navbar/Navbar';
 import Search from '../components/search/Search';
 import UserList from '../components/users/UserList';
-import UserDetails from '../components/users/UserDetails'; 
-import Spinner from './Spinner';
+import UserDetails from '../components/users/UserDetails';
+import { Segment } from 'semantic-ui-react';
+import Pagination from './Pagination'; 
 
 
 
 const App = () => {
 	const [users, setUsers] = useState([]);
-	const [loading, setLoading] = useState(false); 
+	const [page, setPage] = useState(1); 
 
-	const userSearch = async (users) => {
-		setLoading(true);
-
+	const userSearch = users => {	
 		axios
+			//.get(`https://api.github.com/search/users?q=${users}+in:user?&page=${page}&per_page=24`)
 			.get(`https://api.github.com/search/users?q=${users}+in:user`)
-			.then((res) => {
-				setUsers(res.data.items);
-				setLoading(false);
-			})
-			.catch((error) => {
-				console.log(error.response);
-			});
+			.then(resp => console.log(resp.data.items))
+			.catch(error => console.log(error.response));
 	};
 
 
-	const userContent = () => {
-		if (loading) {
-			return (
-				<div>
-					<Spinner />
-				</div>
-			)
-		} else {
-			return <UserList users={users} />
-		}
-	}
-
 	return (
+
+	
 		<div>
 			<BrowserRouter>
 				<Header />
-				<div className='ui container'>
+				<div className='ui container' style={{ marginBottom: '2em' }}>
+					
 					<Search onFormSubmit={userSearch} />
-					{userContent()}
 
-					<Route path="/userdetails" component={UserDetails} />
+					<Segment>
+						<Route path="/" render={routerProps => 
+							<UserList users={users} {...routerProps} />
+						} />
+						
+						<Route exact path="/userpage" render={routerProps => 
+							<UserDetails {...routerProps} />
+						}/>
+					</Segment>
+	
 				</div>
 			</BrowserRouter>
 		</div>
