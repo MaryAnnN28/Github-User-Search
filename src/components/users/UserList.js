@@ -1,10 +1,11 @@
 import React from 'react'
-import UserCard from './UserCard';
-import UserAvatar from './UserAvatar'; 
+import UserCard from './UserCard'; 
 
 
 
-const UserList = ({ users }) => {	
+
+const UserList = ({ users }) => {
+	
 
 	return (
 		<div className="users-list">
@@ -14,20 +15,11 @@ const UserList = ({ users }) => {
 			</div>
 
 			<div className="ui three cards" style={{ padding: '5rem' }}>
-				{users.map(user =>
-					<li key={user.id} className="user-list-item">
-					<UserAvatar
-							url={user.avatar_url + '&size=50'}
-							link={user.html_url}
-							altText={user.login}
-							title={user.login}
-					/>
-					<UserCard user={user} />
-					</li>
+				{users.map(user => 
+					<UserCard key={user.id} user={user}/>
 					)}
 			</div>
 
-		
 		</div>
 	)
 }
