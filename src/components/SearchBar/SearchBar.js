@@ -1,31 +1,35 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import './Search.css';
 import { Form } from 'semantic-ui-react';
 
 
-const Search = ({ onFormSubmit }) => {
+const Search = ({ onSearch, loading }) => {
 
-	const [term, setTerm] = useState('');
+	const inputRef = useRef(null); 
 
-	const handleSearch = event => {
+	const onSubmit = event => {
 		event.preventDefault();
-		onFormSubmit(term); 
-	}
+		let val = inputRef.current.value;
+		if (val) {
+			onSearch(val);
+		}
+	}; 
 
 
 	return (
 		<div>
 			
 			<div className='search'>
-				<Form onSubmit={handleSearch}	>
+				<Form onSubmit={onSubmit}	>
 					<Form.Group>
 						<Form.Input
 							placeholder='Search for Users'
-							value={term}
-							onChange={event => setTerm(event.target.value)} />
+							disabled={loading}
+							ref={inputRef} />
 						<Form.Button
 							content='Search'
 							type="submit"
+							disabled={loading}
 						/>
 					</Form.Group>
 				</Form>

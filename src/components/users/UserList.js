@@ -1,59 +1,10 @@
-import React, { useState } from 'react'; 
+import React from 'react'
 import UserCard from './UserCard';
-import ReactPaginate from 'react-paginate'; 
+import UserAvatar from './UserAvatar'; 
 
 
 
-
-const UserList = () => {
-
-	const [users, setUsers] = useState([])
-
-	const [pageNumber, setPageNumber] = useState(1);
-	const usersPerPage = 12;
-	const pagesVisited = pageNumber * usersPerPage;
-
-	const displayUsers = users
-		.slice(pagesVisited, pagesVisited + usersPerPage)
-		.map(user => {
-			return (
-				<div
-					className='user-card ui card'
-					key={user.id}
-					user={user}
-					style={{margin: '1em'}}
-				>
-					<div className='image'>
-						<img src={user.avatar_url} alt={user.login} />
-					</div>
-
-					<div className='content'>
-						<div className='header left floated'>{user.login}</div>
-						<div className='right floated meta'>
-							<i className='users icon' /> &nbsp;
-							{user.followers_url.length} followers
-						</div>
-					</div>
-
-					<div className='extra content' align='center'>
-						<button className='ui button small'>
-							View Details
-						</button>
-
-						<a href={user.html_url} target='_blank' rel='noreferrer'>
-							<button className='ui button small'>Github</button>
-						</a>
-					</div>
-				</div>
-			);
-		});
-
-		const pageCount = Math.ceil(users.length / usersPerPage);
-
-		const pageChange = ({selected}) => {
-			setPageNumber(selected);
-		};
-	
+const UserList = ({ users }) => {	
 
 	return (
 		<div className="users-list">
@@ -63,24 +14,20 @@ const UserList = () => {
 			</div>
 
 			<div className="ui three cards" style={{ padding: '5rem' }}>
-				{/*{users.map(userCard => 
-					<UserCard key={userCard.id} userCard={userCard}/>
-					)}*/}
-				{displayUsers}
-				<ReactPaginate
-					previousLabel={'Prev'}
-					nextLabel={'Next'}
-					pageCount={pageCount}
-					onPageChange={pageChange}
-					containerClassName={'paginationButtons'}
-					previousLinkClassName={'previousButton'}
-					nextLinkClassName={'nextButton'}
-					disabledClassName={'paginationDisabled'}
-					activeClassName={'paginationActive'}
-				/>
-
+				{users.map(user =>
+					<li key={user.id} className="user-list-item">
+					<UserAvatar
+							url={user.avatar_url + '&size=50'}
+							link={user.html_url}
+							altText={user.login}
+							title={user.login}
+					/>
+					<UserCard user={user} />
+					</li>
+					)}
 			</div>
 
+		
 		</div>
 	)
 }
